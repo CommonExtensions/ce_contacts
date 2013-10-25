@@ -1,0 +1,115 @@
+<?php
+/**
+ * @file        ce_contacts.install
+ * @description
+ *
+ * PHP Version  5.3.13
+ *
+ * @package     Common extension
+ * @category    Drupal module
+ * @plugin URI
+ * @copyright   2013, Vadim Pshentsov. All Rights Reserved.
+ * @license     http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @author      Vadim Pshentsov <pshentsoff@gmail.com> 
+ * @link        http://pshentsoff.ru Author's homepage
+ * @link        http://blog.pshentsoff.ru Author's blog
+ *
+ * @created     07.10.13
+ */
+
+/**
+ * hook_schema() implementation
+ * @return mixed - schema
+ */
+function ce_contacts_schema() {
+
+  $schema['ce_contacts'] = array(
+    'description' => t(''),
+    'fields' => array(
+      'id' => array(
+        'description' => t('Unique ID'),
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'created' => array(
+        'description' => t('The Unix timestamp when record created.'),
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' =>
+        t('The Unix timestamp when record was recently changed.'),
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'name' => array(
+        'description' => t('Machine name for contact.'),
+        'type' => 'varchar',
+        'unsigned' => TRUE,
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'title' => array(
+        'description' => t('Contact title.'),
+        'type' => 'varchar',
+        'unsigned' => TRUE,
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'image' => array(
+        'description' => t('Contact image file path.'),
+        'type' => 'varchar',
+        'unsigned' => TRUE,
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+
+    ),
+
+    'primary key' => array('id'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Function fill table(s) with common/default data
+ */
+function ce_contacts_defaults() {
+
+  $contacts_data = array();
+  $contacts_data[] = array('created' => time(), 'changed' => time(), 'name' => 'phone', 'title' => t('Phone'));
+  $contacts_data[] = array('created' => time(), 'changed' => time(), 'name' => 'email', 'title' => t('EMail'));
+  $contacts_data[] = array('created' => time(), 'changed' => time(), 'name' => 'icq', 'title' => t('ICQ'));
+  $contacts_data[] = array('created' => time(), 'changed' => time(), 'name' => 'jabber', 'title' => t('Jabber'));
+  $contacts_data[] = array('created' => time(), 'changed' => time(), 'name' => 'skype', 'title' => t('Skype'));
+  $contacts_data[] = array('created' => time(), 'changed' => time(), 'name' => 'twitter', 'title' => t('Twitter'));
+  $contacts_data[] = array('created' => time(), 'changed' => time(), 'name' => 'vkontakte', 'title' => t('VKontakte'));
+  $contacts_data[] = array('created' => time(), 'changed' => time(), 'name' => 'facebook', 'title' => t('Facebook'));
+
+  foreach ($contacts_data as $contact) {
+    drupal_write_record('ce_contacts', $contact);
+  }
+
+}
+
+/**
+ * hook_install() implementation
+ */
+function ce_contacts_install() {
+  drupal_install_schema('ce_conacts');
+  ce_contacts_defaults();
+}
+
+/**
+ * hook_uninstall() implementation
+ */
+function ce_contacts_uninstall() {
+  db_drop_table('ce_contacts');
+}

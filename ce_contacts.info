@@ -1,0 +1,7 @@
+name        = Contacts
+description = Common contacts and social networks
+package     = Common Extensions
+core        = 7.x
+php         = 5.3
+version     = "7.x-0.0.1-dev"
+files[]     = ce_contacts.install
